@@ -183,9 +183,16 @@ function updateStats() {
     const totalRegions = new Set(companies.map(c => c.region)).size;
     const totalVerticals = new Set(companies.map(c => c.vertical)).size;
     
+    // Calculate average growth rate
+    const companiesWithGrowth = companies.filter(c => c.growth && c.growth > 0);
+    const avgGrowth = companiesWithGrowth.length > 0 
+        ? Math.round(companiesWithGrowth.reduce((sum, c) => sum + c.growth, 0) / companiesWithGrowth.length)
+        : 0;
+    
     document.getElementById('totalCompanies').textContent = totalCompanies;
     document.getElementById('totalRegions').textContent = totalRegions;
     document.getElementById('totalVerticals').textContent = totalVerticals;
+    document.getElementById('avgGrowth').textContent = avgGrowth + '%';
 }
 
 // Modal functions
