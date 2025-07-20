@@ -1,6 +1,6 @@
 # AI First Services Leaderboard
 
-A comprehensive leaderboard tracking AI-native service companies worldwide, focusing on businesses with ARR between $250K and $100M USD.
+A comprehensive leaderboard tracking AI-native service companies world3. Your site will be available at: `https://[username].github.io/leaderboard`ide, focusing on businesses with ARR between $250K and $100M USD.
 
 ## 🎯 Purpose
 
@@ -71,7 +71,7 @@ This leaderboard showcases the fastest-growing AI-first service companies across
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/[your-username]/AI_First_Services.git
+   git clone https://github.com/[your-username]/leaderboard.git
    ```
 
 2. Open `index.html` in your browser or serve locally:
