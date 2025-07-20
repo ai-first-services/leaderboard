@@ -7,26 +7,10 @@ const regionFilter = document.getElementById('regionFilter');
 const verticalFilter = document.getElementById('verticalFilter');
 const typeFilter = document.getElementById('typeFilter');
 const timeFilter = document.getElementById('timeFilter');
-const mobileFilterToggle = document.getElementById('mobileFilterToggle');
-const filtersContainer = document.getElementById('filtersContainer');
-const mobileFilterIcon = document.getElementById('mobileFilterIcon');
 
 // Global variables
 let companies = [];
 let filteredCompanies = [];
-
-// Mobile filter toggle functionality
-function toggleMobileFilters() {
-    if (filtersContainer.classList.contains('hidden')) {
-        filtersContainer.classList.remove('hidden');
-        filtersContainer.classList.add('block');
-        mobileFilterIcon.style.transform = 'rotate(180deg)';
-    } else {
-        filtersContainer.classList.add('hidden');
-        filtersContainer.classList.remove('block');
-        mobileFilterIcon.style.transform = 'rotate(0deg)';
-    }
-}
 
 // Sample data for demonstration
 const sampleData = [
@@ -206,10 +190,10 @@ function checkTimeMatch(company, timeFilter) {
 function renderLeaderboard() {
     if (filteredCompanies.length === 0) {
         leaderboardBody.innerHTML = `
-            <div class="flex flex-col items-center justify-center py-12 sm:py-16 text-gray-500">
-                <i data-lucide="search" class="w-8 h-8 sm:w-12 sm:h-12 mb-3 sm:mb-4 opacity-50"></i>
-                <p class="text-base sm:text-lg font-medium mb-2">No entries found</p>
-                <p class="text-xs sm:text-sm">Try adjusting your filters or submit a new entry!</p>
+            <div class="flex flex-col items-center justify-center py-16 text-gray-500">
+                <i data-lucide="search" class="w-12 h-12 mb-4 opacity-50"></i>
+                <p class="text-lg font-medium mb-2">No entries found</p>
+                <p class="text-sm">Try adjusting your filters or submit a new entry!</p>
             </div>
         `;
         lucide.createIcons();
@@ -217,56 +201,52 @@ function renderLeaderboard() {
     }
     
     leaderboardBody.innerHTML = filteredCompanies.map((company, index) => `
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 sm:p-6 hover:bg-gray-50 transition-colors space-y-3 sm:space-y-0">
-            <div class="flex items-start sm:items-center space-x-3 sm:space-x-4 flex-1 w-full sm:w-auto">
+        <div class="flex items-center justify-between p-6 hover:bg-gray-50 transition-colors">
+            <div class="flex items-center space-x-4 flex-1">
                 <div class="flex-shrink-0">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm sm:text-lg">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
                         #${index + 1}
                     </div>
                 </div>
                 
                 <div class="flex-1 min-w-0">
-                    <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 mb-2">
-                        <h4 class="text-base sm:text-lg font-semibold text-gray-900 truncate">${company.name}</h4>
-                        <div class="flex flex-wrap gap-2">
-                            ${company.entityType !== 'Company' ? `
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    ${company.entityType}
-                                </span>
-                            ` : ''}
-                            ${company.featured ? `
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                                    <i data-lucide="star" class="w-3 h-3 mr-1"></i>
-                                    Featured
-                                </span>
-                            ` : ''}
-                        </div>
+                    <div class="flex items-center space-x-3 mb-2">
+                        <h4 class="text-lg font-semibold text-gray-900 truncate">${company.name}</h4>
+                        ${company.entityType !== 'Company' ? `
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                ${company.entityType}
+                            </span>
+                        ` : ''}
+                        ${company.featured ? `
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                <i data-lucide="star" class="w-3 h-3 mr-1"></i>
+                                Featured
+                            </span>
+                        ` : ''}
                     </div>
                     
                     <p class="text-gray-600 text-sm mb-3 line-clamp-2">${company.description}</p>
                     
-                    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
+                    <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500">
                         <a href="${company.website}" target="_blank" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                            <i data-lucide="external-link" class="w-3 h-3 sm:w-4 sm:h-4 mr-1"></i>
+                            <i data-lucide="external-link" class="w-4 h-4 mr-1"></i>
                             ${company.website.replace('https://', '').replace('http://', '')}
                         </a>
                         <span class="inline-flex items-center">
-                            <i data-lucide="map-pin" class="w-3 h-3 sm:w-4 sm:h-4 mr-1"></i>
+                            <i data-lucide="map-pin" class="w-4 h-4 mr-1"></i>
                             ${company.region}
                         </span>
                         <span class="inline-flex items-center">
-                            <i data-lucide="building" class="w-3 h-3 sm:w-4 sm:h-4 mr-1"></i>
+                            <i data-lucide="building" class="w-4 h-4 mr-1"></i>
                             ${company.vertical}
                         </span>
                     </div>
                 </div>
             </div>
             
-            <div class="flex-shrink-0 text-left sm:text-right w-full sm:w-auto sm:ml-6">
-                <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start">
-                    <div class="text-base sm:text-lg font-bold text-gray-900">${company.arrDisplay}</div>
-                    ${company.growth ? `<div class="text-xs sm:text-sm text-green-600 font-medium">+${company.growth}% YoY</div>` : ''}
-                </div>
+            <div class="flex-shrink-0 text-right ml-6">
+                <div class="text-lg font-bold text-gray-900 mb-1">${company.arrDisplay}</div>
+                ${company.growth ? `<div class="text-sm text-green-600 font-medium">+${company.growth}% YoY</div>` : ''}
             </div>
         </div>
     `).join('');
@@ -430,11 +410,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (timeFilter) {
         timeFilter.addEventListener('change', filterCompanies);
-    }
-    
-    // Mobile filter toggle
-    if (mobileFilterToggle) {
-        mobileFilterToggle.addEventListener('click', toggleMobileFilters);
     }
     
     // Initialize form fields
