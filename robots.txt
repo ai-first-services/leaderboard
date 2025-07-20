@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leaderboard.ai-first-services.com/sitemap.xml

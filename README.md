@@ -1,10 +1,16 @@
 # AI First Services Leaderboard
 
-A comprehensive leaderboard tracking AI-native service companies world3. Your site will be available at: `https://[username].github.io/leaderboard`ide, focusing on businesses with ARR between $250K and $100M USD.
+**🌐 View the live leaderboard at: [leaderboard.ai-first-services.com](https://leaderboard.ai-first-services.com)**
+
+A comprehensive leaderboard tracking AI-native service companies worldwide, focusing on businesses with ARR between $250K and $100M USD.
 
 ## 🎯 Purpose
 
 This leaderboard showcases the fastest-growing AI-first service companies across different regions and verticals, providing insights into the emerging AI services landscape.
+
+## 🚀 Submit Your Company
+
+Visit [leaderboard.ai-first-services.com](https://leaderboard.ai-first-services.com) and click "Submit a Company" to add your AI-first service business to the leaderboard.
 
 ## 📊 Eligibility Criteria
 
@@ -57,15 +63,22 @@ This leaderboard showcases the fastest-growing AI-first service companies across
 
 ## 📝 How to Submit a Company
 
-1. Click the "Submit a Company" button
-2. Fill out the required information:
+1. Visit [leaderboard.ai-first-services.com](https://leaderboard.ai-first-services.com)
+2. Click the "Submit a Company" button
+3. Fill out the required information:
    - Company name and website
    - Business description
    - ARR range
    - Region and vertical
    - Growth rate (optional)
    - Your contact information
-3. Submit for review
+4. Submit for review
+
+## 📞 Contact
+
+For questions, suggestions, or to report issues:
+- Create an issue in this repository
+- Visit the website: [leaderboard.ai-first-services.com](https://leaderboard.ai-first-services.com)
 
 ## 🔧 Development Setup
 
@@ -135,10 +148,17 @@ For questions, suggestions, or to report issues:
 - Create an issue in this repository
 - Contact: [your-email@example.com]
 
-## 📄 License
+## � Data Policy
+
+- All submitted data is community-driven
+- Information may not be independently verified
+- Companies can request updates or removal
+- Criteria subject to refinement over time
+
+## �📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-**Built with ❤️ for the AI-first services community**
+**Visit [leaderboard.ai-first-services.com](https://leaderboard.ai-first-services.com) to explore the AI-first services ecosystem**
