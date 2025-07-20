@@ -1,5 +1,19 @@
+// DOM elements
+const leaderboardBody = document.getElementById('leaderboard-body');
+const submissionModal = document.getElementById('submissionModal');
+const definitionModal = document.getElementById('definitionModal');
+const submissionForm = document.getElementById('submissionForm');
+const regionFilter = document.getElementById('regionFilter');
+const verticalFilter = document.getElementById('verticalFilter');
+const typeFilter = document.getElementById('typeFilter');
+const timeFilter = document.getElementById('timeFilter');
+
+// Global variables
+let companies = [];
+let filteredCompanies = [];
+
 // Sample data for demonstration
-let companies = [
+const sampleData = [
     {
         id: 1,
         name: "AI DocAssist",
@@ -13,7 +27,10 @@ let companies = [
         growth: 180,
         submittedBy: "Demo User",
         submittedEmail: "demo@example.com",
-        relation: "Industry Observer"
+        relation: "Industry Observer",
+        entityType: "Company",
+        submittedDate: "2024-12-01T00:00:00.000Z",
+        featured: true
     },
     {
         id: 2,
@@ -28,7 +45,10 @@ let companies = [
         growth: 220,
         submittedBy: "Demo User",
         submittedEmail: "demo@example.com",
-        relation: "Customer"
+        relation: "Customer",
+        entityType: "Company",
+        submittedDate: "2024-11-15T00:00:00.000Z",
+        featured: false
     },
     {
         id: 3,
@@ -43,234 +63,268 @@ let companies = [
         growth: 340,
         submittedBy: "Demo User",
         submittedEmail: "demo@example.com",
-        relation: "Founder/CEO"
+        relation: "Founder/CEO",
+        entityType: "Company",
+        submittedDate: "2024-10-20T00:00:00.000Z",
+        featured: false
     },
     {
         id: 4,
-        name: "RetailBot Analytics",
-        website: "https://retailbot.com",
-        description: "AI-powered inventory optimization and demand forecasting for e-commerce",
-        arr: "25000000-50000000",
-        arrDisplay: "$25M - $50M",
-        arrValue: 35000000,
-        region: "China",
-        vertical: "Retail",
-        growth: 120,
-        submittedBy: "Demo User",
-        submittedEmail: "demo@example.com",
-        relation: "Investor"
-    },
-    {
-        id: 5,
-        name: "LegalMind AI",
-        website: "https://legalmind.ai",
-        description: "Contract analysis and legal research automation for law firms",
+        name: "Alex Chen",
+        website: "https://alexchen-ai.com",
+        description: "Specialized AI agent for legal document processing and contract analysis",
         arr: "500000-1000000",
         arrDisplay: "$500K - $1M",
         arrValue: 750000,
-        region: "North America",
-        vertical: "Legal",
-        growth: 280,
-        submittedBy: "Demo User",
-        submittedEmail: "demo@example.com",
-        relation: "Employee"
+        region: "Asia Pacific",
+        vertical: "Legal Services",
+        growth: 156,
+        submittedBy: "Alex Chen",
+        submittedEmail: "alex@alexchen-ai.com",
+        relation: "Founder/CEO",
+        entityType: "AI Agent",
+        submittedDate: "2024-12-10T00:00:00.000Z",
+        featured: false
     },
     {
-        id: 6,
-        name: "ManufacturingAI+",
-        website: "https://manufacturingai.plus",
-        description: "Predictive maintenance and quality control AI for manufacturing plants",
-        arr: "5000000-10000000",
-        arrDisplay: "$5M - $10M",
-        arrValue: 8000000,
-        region: "GCC",
-        vertical: "Manufacturing",
-        growth: 150,
-        submittedBy: "Demo User",
-        submittedEmail: "demo@example.com",
-        relation: "Customer"
+        id: 5,
+        name: "DataPod Analytics",
+        website: "https://datapod.io",
+        description: "Autonomous AI pod for real-time data analysis and business intelligence",
+        arr: "1000000-5000000",
+        arrDisplay: "$1M - $5M",
+        arrValue: 2500000,
+        region: "North America",
+        vertical: "Professional Services",
+        growth: 189,
+        submittedBy: "Sarah Kim",
+        submittedEmail: "sarah@datapod.io",
+        relation: "Employee",
+        entityType: "AI Pod",
+        submittedDate: "2025-01-05T00:00:00.000Z",
+        featured: true
     }
 ];
 
-let filteredCompanies = [...companies];
-let currentSort = 'arr-desc';
+// Modal functions
+function openSubmissionModal() {
+    submissionModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
 
-// DOM Elements
-const leaderboardBody = document.getElementById('leaderboardBody');
-const regionFilter = document.getElementById('regionFilter');
-const verticalFilter = document.getElementById('verticalFilter');
-const sortFilter = document.getElementById('sortFilter');
-const submissionModal = document.getElementById('submissionModal');
-const submissionForm = document.getElementById('submissionForm');
+function closeSubmissionModal() {
+    submissionModal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    submissionForm.reset();
+    clearMessages();
+}
 
-// Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
-    updateStats();
-    filterCompanies();
-    setupFormSubmission();
-});
+function openDefinitionModal() {
+    definitionModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeDefinitionModal() {
+    definitionModal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+// Form field toggle
+function toggleFormFields() {
+    const submissionType = document.getElementById('submissionType').value;
+    const entityTypeField = document.getElementById('entityTypeField');
+    const entityType = document.getElementById('entityType');
+    
+    if (submissionType === 'individual') {
+        entityTypeField.style.display = 'block';
+        entityType.innerHTML = `
+            <option value="">Select Type</option>
+            <option value="AI Agent">AI Agent</option>
+            <option value="AI Pod">AI Pod</option>
+            <option value="AI Worker">AI Worker</option>
+        `;
+    } else {
+        entityTypeField.style.display = 'none';
+        entityType.innerHTML = '<option value="Company">Company</option>';
+    }
+}
 
 // Filter companies based on selected criteria
 function filterCompanies() {
-    const selectedRegion = regionFilter.value;
-    const selectedVertical = verticalFilter.value;
+    const selectedRegion = regionFilter?.value || '';
+    const selectedVertical = verticalFilter?.value || '';
+    const selectedType = typeFilter?.value || '';
+    const selectedTime = timeFilter?.value || '';
     
     filteredCompanies = companies.filter(company => {
         const regionMatch = !selectedRegion || company.region === selectedRegion;
         const verticalMatch = !selectedVertical || company.vertical === selectedVertical;
-        return regionMatch && verticalMatch;
-    });
-    
-    sortCompanies();
-}
-
-// Sort companies based on selected criteria
-function sortCompanies() {
-    const sortBy = sortFilter.value;
-    
-    filteredCompanies.sort((a, b) => {
-        switch(sortBy) {
-            case 'arr-desc':
-                return b.arrValue - a.arrValue;
-            case 'arr-asc':
-                return a.arrValue - b.arrValue;
-            case 'name-asc':
-                return a.name.localeCompare(b.name);
-            case 'growth-desc':
-                return (b.growth || 0) - (a.growth || 0);
-            default:
-                return b.arrValue - a.arrValue;
-        }
+        const typeMatch = !selectedType || company.entityType === selectedType;
+        const timeMatch = !selectedTime || checkTimeMatch(company, selectedTime);
+        
+        return regionMatch && verticalMatch && typeMatch && timeMatch;
     });
     
     renderLeaderboard();
+}
+
+function checkTimeMatch(company, timeFilter) {
+    const now = new Date();
+    const submitDate = new Date(company.submittedDate || now);
+    
+    switch(timeFilter) {
+        case 'week':
+            return (now - submitDate) <= (7 * 24 * 60 * 60 * 1000);
+        case 'month':
+            return (now - submitDate) <= (30 * 24 * 60 * 60 * 1000);
+        case 'quarter':
+            return (now - submitDate) <= (90 * 24 * 60 * 60 * 1000);
+        case 'year':
+            return (now - submitDate) <= (365 * 24 * 60 * 60 * 1000);
+        default:
+            return true;
+    }
 }
 
 // Render the leaderboard
 function renderLeaderboard() {
     if (filteredCompanies.length === 0) {
         leaderboardBody.innerHTML = `
-            <div style="text-align: center; padding: 3rem; color: #718096;">
-                <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">No companies found</p>
-                <p style="font-size: 0.9rem;">Try adjusting your filters or submit a new company!</p>
+            <div class="flex flex-col items-center justify-center py-16 text-gray-500">
+                <i data-lucide="search" class="w-12 h-12 mb-4 opacity-50"></i>
+                <p class="text-lg font-medium mb-2">No entries found</p>
+                <p class="text-sm">Try adjusting your filters or submit a new entry!</p>
             </div>
         `;
+        lucide.createIcons();
         return;
     }
     
     leaderboardBody.innerHTML = filteredCompanies.map((company, index) => `
-        <div class="company-row">
-            <div class="company-rank">#${index + 1}</div>
-            <div class="company-info">
-                <div class="company-name">${company.name}</div>
-                <div class="company-description">${company.description}</div>
-                <a href="${company.website}" target="_blank" class="company-website" rel="noopener noreferrer">
-                    <i class="fas fa-external-link-alt"></i> ${company.website.replace('https://', '').replace('http://', '')}
-                </a>
+        <div class="flex items-center justify-between p-6 hover:bg-gray-50 transition-colors">
+            <div class="flex items-center space-x-4 flex-1">
+                <div class="flex-shrink-0">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                        #${index + 1}
+                    </div>
+                </div>
+                
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <h4 class="text-lg font-semibold text-gray-900 truncate">${company.name}</h4>
+                        ${company.entityType !== 'Company' ? `
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                ${company.entityType}
+                            </span>
+                        ` : ''}
+                        ${company.featured ? `
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                <i data-lucide="star" class="w-3 h-3 mr-1"></i>
+                                Featured
+                            </span>
+                        ` : ''}
+                    </div>
+                    
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">${company.description}</p>
+                    
+                    <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                        <a href="${company.website}" target="_blank" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                            <i data-lucide="external-link" class="w-4 h-4 mr-1"></i>
+                            ${company.website.replace('https://', '').replace('http://', '')}
+                        </a>
+                        <span class="inline-flex items-center">
+                            <i data-lucide="map-pin" class="w-4 h-4 mr-1"></i>
+                            ${company.region}
+                        </span>
+                        <span class="inline-flex items-center">
+                            <i data-lucide="building" class="w-4 h-4 mr-1"></i>
+                            ${company.vertical}
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="company-arr">${company.arrDisplay}</div>
-            <div class="company-region">${company.region}</div>
-            <div class="company-vertical">${company.vertical}</div>
-            <div class="company-growth">${company.growth ? company.growth + '%' : 'N/A'}</div>
+            
+            <div class="flex-shrink-0 text-right ml-6">
+                <div class="text-lg font-bold text-gray-900 mb-1">${company.arrDisplay}</div>
+                ${company.growth ? `<div class="text-sm text-green-600 font-medium">+${company.growth}% YoY</div>` : ''}
+            </div>
         </div>
     `).join('');
+    
+    lucide.createIcons();
 }
 
 // Update statistics
 function updateStats() {
-    const totalCompanies = companies.length;
-    const totalRegions = new Set(companies.map(c => c.region)).size;
-    const totalVerticals = new Set(companies.map(c => c.vertical)).size;
-    
-    // Calculate average growth rate
-    const companiesWithGrowth = companies.filter(c => c.growth && c.growth > 0);
-    const avgGrowth = companiesWithGrowth.length > 0 
-        ? Math.round(companiesWithGrowth.reduce((sum, c) => sum + c.growth, 0) / companiesWithGrowth.length)
-        : 0;
+    const totalCompanies = companies.filter(c => c.entityType === 'Company' || !c.entityType).length;
+    const totalIndividuals = companies.filter(c => c.entityType === 'AI Agent' || c.entityType === 'AI Pod' || c.entityType === 'AI Worker').length;
+    const totalRegions = [...new Set(companies.map(c => c.region))].length;
+    const avgGrowth = Math.round(companies.reduce((sum, c) => sum + (c.growth || 0), 0) / companies.length);
     
     document.getElementById('totalCompanies').textContent = totalCompanies;
+    document.getElementById('totalIndividuals').textContent = totalIndividuals;
     document.getElementById('totalRegions').textContent = totalRegions;
-    document.getElementById('totalVerticals').textContent = totalVerticals;
     document.getElementById('avgGrowth').textContent = avgGrowth + '%';
 }
 
-// Modal functions
-function openSubmissionModal() {
-    submissionModal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeSubmissionModal() {
-    submissionModal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-    submissionForm.reset();
-    clearMessages();
-}
-
-// Close modal when clicking outside
-window.onclick = function(event) {
-    if (event.target === submissionModal) {
-        closeSubmissionModal();
-    }
-}
-
-// Form submission setup
-function setupFormSubmission() {
-    submissionForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        handleFormSubmission();
-    });
-}
-
-// Handle form submission
-function handleFormSubmission() {
-    const formData = new FormData(submissionForm);
-    const newCompany = {
-        id: companies.length + 1,
-        name: formData.get('companyName'),
-        website: formData.get('companyWebsite'),
-        description: formData.get('companyDescription'),
-        arr: formData.get('companyARR'),
-        arrDisplay: getArrDisplay(formData.get('companyARR')),
-        arrValue: getArrValue(formData.get('companyARR')),
-        region: formData.get('companyRegion'),
-        vertical: formData.get('companyVertical'),
-        growth: parseInt(formData.get('companyGrowth')) || null,
-        submittedBy: formData.get('submitterName'),
-        submittedEmail: formData.get('submitterEmail'),
-        relation: formData.get('submitterRelation')
+// Form submission
+function handleFormSubmission(event) {
+    event.preventDefault();
+    
+    // Collect form data
+    const formData = {
+        submissionType: document.getElementById('submissionType').value,
+        entityName: document.getElementById('entityName').value,
+        entityType: document.getElementById('entityType').value,
+        website: document.getElementById('website').value,
+        description: document.getElementById('description').value,
+        entityARR: document.getElementById('entityARR').value,
+        region: document.getElementById('region').value,
+        vertical: document.getElementById('vertical').value,
+        growth: parseInt(document.getElementById('growth').value) || 0,
+        submittedBy: document.getElementById('submittedBy').value,
+        submittedEmail: document.getElementById('submittedEmail').value,
+        relation: document.getElementById('relation').value
     };
     
-    // Validate ARR range
-    if (!isValidARR(newCompany.arrValue)) {
-        showError('Company ARR must be between $250K and $100M USD');
-        return;
+    // Validate required fields
+    const requiredFields = ['entityName', 'website', 'description', 'entityARR', 'region', 'vertical', 'submittedBy', 'submittedEmail', 'relation'];
+    for (let field of requiredFields) {
+        if (!formData[field]) {
+            showMessage('Please fill in all required fields.', 'error');
+            return;
+        }
     }
     
-    // Check for duplicates
-    const isDuplicate = companies.some(company => 
-        company.name.toLowerCase() === newCompany.name.toLowerCase() ||
-        company.website.toLowerCase() === newCompany.website.toLowerCase()
-    );
+    // Create new entry
+    const newEntry = {
+        id: companies.length + 1,
+        name: formData.entityName,
+        entityType: formData.entityType || 'Company',
+        website: formData.website,
+        description: formData.description,
+        arr: formData.entityARR,
+        arrDisplay: getArrDisplay(formData.entityARR),
+        arrValue: getArrValue(formData.entityARR),
+        region: formData.region,
+        vertical: formData.vertical,
+        growth: formData.growth,
+        submittedBy: formData.submittedBy,
+        submittedEmail: formData.submittedEmail,
+        relation: formData.relation,
+        submittedDate: new Date().toISOString(),
+        featured: false
+    };
     
-    if (isDuplicate) {
-        showError('A company with this name or website already exists in our database');
-        return;
-    }
-    
-    // Add company to the list
-    companies.push(newCompany);
-    filteredCompanies = [...companies];
+    // Add to companies array
+    companies.push(newEntry);
     
     // Update display
     updateStats();
     filterCompanies();
     
-    // Show success message
-    showSuccess('Company submitted successfully! It will appear in the leaderboard after review.');
+    showMessage('Thank you for your submission! Your entry has been added to the leaderboard.', 'success');
     
-    // Close modal after a delay
     setTimeout(() => {
         closeSubmissionModal();
     }, 2000);
@@ -303,55 +357,70 @@ function getArrValue(arrRange) {
     return values[arrRange] || 0;
 }
 
-function isValidARR(arrValue) {
-    return arrValue >= 250000 && arrValue <= 100000000;
-}
-
-function showSuccess(message) {
-    clearMessages();
-    const successDiv = document.createElement('div');
-    successDiv.className = 'success-message';
-    successDiv.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
-    submissionForm.insertBefore(successDiv, submissionForm.firstChild);
-}
-
-function showError(message) {
-    clearMessages();
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message';
-    errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
-    submissionForm.insertBefore(errorDiv, submissionForm.firstChild);
+function showMessage(message, type) {
+    const container = document.getElementById('message-container');
+    container.className = `p-4 rounded-lg ${type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`;
+    container.textContent = message;
+    container.classList.remove('hidden');
+    
+    if (type === 'success') {
+        setTimeout(() => {
+            container.classList.add('hidden');
+        }, 3000);
+    }
 }
 
 function clearMessages() {
-    const messages = submissionForm.querySelectorAll('.success-message, .error-message');
-    messages.forEach(msg => msg.remove());
+    const container = document.getElementById('message-container');
+    container.classList.add('hidden');
 }
 
-// Export data function (for future use)
-function exportData() {
-    const dataStr = JSON.stringify(companies, null, 2);
-    const dataBlob = new Blob([dataStr], {type: 'application/json'});
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'ai-first-services-leaderboard.json';
-    link.click();
-    URL.revokeObjectURL(url);
-}
-
-// Search functionality (for future enhancement)
-function searchCompanies(query) {
-    if (!query) {
-        filteredCompanies = [...companies];
-    } else {
-        const searchTerm = query.toLowerCase();
-        filteredCompanies = companies.filter(company => 
-            company.name.toLowerCase().includes(searchTerm) ||
-            company.description.toLowerCase().includes(searchTerm) ||
-            company.vertical.toLowerCase().includes(searchTerm) ||
-            company.region.toLowerCase().includes(searchTerm)
-        );
+// Close modals when clicking outside
+window.onclick = function(event) {
+    if (event.target === submissionModal) {
+        closeSubmissionModal();
     }
-    renderLeaderboard();
+    if (event.target === definitionModal) {
+        closeDefinitionModal();
+    }
 }
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize data
+    companies = [...sampleData];
+    filteredCompanies = [...companies];
+    
+    // Setup event listeners
+    if (submissionForm) {
+        submissionForm.addEventListener('submit', handleFormSubmission);
+    }
+    
+    if (regionFilter) {
+        regionFilter.addEventListener('change', filterCompanies);
+    }
+    
+    if (verticalFilter) {
+        verticalFilter.addEventListener('change', filterCompanies);
+    }
+    
+    if (typeFilter) {
+        typeFilter.addEventListener('change', filterCompanies);
+    }
+    
+    if (timeFilter) {
+        timeFilter.addEventListener('change', filterCompanies);
+    }
+    
+    // Initialize form fields
+    toggleFormFields();
+    
+    // Initial render
+    updateStats();
+    renderLeaderboard();
+    
+    // Initialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+});

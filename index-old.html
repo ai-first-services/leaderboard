@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI First Services Leaderboard - Global Directory of AI-Native Service Companies</title>
+    <meta name="description" content="Discover AI-native service companies across 9 regions and 10+ verticals. Browse $250K-$100M ARR companies transforming industries with AI-first approaches.">
+    <meta name="keywords" content="AI services, artificial intelligence companies, AI-first businesses, global AI directory, service companies, startup leaderboard">
+    <meta name="author" content="AI First Services">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://leaderboard.ai-first-services.com/">
+    <meta property="og:title" content="AI First Services Leaderboard - Global Directory">
+    <meta property="og:description" content="Discover AI-native service companies transforming industries worldwide. Filter by region, vertical, and growth metrics.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://leaderboard.ai-first-services.com/">
+    <meta property="twitter:title" content="AI First Services Leaderboard - Global Directory">
+    <meta property="twitter:description" content="Discover AI-native service companies transforming industries worldwide. Filter by region, vertical, and growth metrics.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://leaderboard.ai-first-services.com/">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <i class="fas fa-robot"></i>
+                    AI First Services Leaderboard
+                </h1>
+                <p class="tagline">Discover AI-native service companies transforming industries worldwide</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Criteria Section -->
+            <section class="criteria-section">
+                <div class="criteria-card">
+                    <h2><i class="fas fa-chart-line"></i> What Makes Us Different</h2>
+                    <div class="criteria-grid">
+                        <div class="criteria-item">
+                            <span class="criteria-label">ARR Range:</span>
+                            <span class="criteria-value">$250K - $100M USD</span>
+                        </div>
+                        <div class="criteria-item">
+                            <span class="criteria-label">Focus:</span>
+                            <span class="criteria-value">AI-First Services</span>
+                        </div>
+                        <div class="criteria-item">
+                            <span class="criteria-label">Scope:</span>
+                            <span class="criteria-value">Global Coverage</span>
+                        </div>
+                        <div class="criteria-item">
+                            <span class="criteria-label">Regions:</span>
+                            <span class="criteria-value">9 Geographic Areas</span>
+                        </div>
+                        <div class="criteria-item">
+                            <span class="criteria-label">Verticals:</span>
+                            <span class="criteria-value">10+ Industry Segments</span>
+                        </div>
+                        <div class="criteria-item">
+                            <span class="criteria-label">Approach:</span>
+                            <span class="criteria-value">Community-Driven</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Value Proposition Section -->
+            <section class="criteria-section">
+                <div class="criteria-card">
+                    <h2><i class="fas fa-lightbulb"></i> Why AI First Services Matter</h2>
+                    <p style="color: #4a5568; margin-bottom: 1rem; line-height: 1.6;">
+                        Unlike traditional AI companies that add intelligence to existing processes, <strong>AI-First Services</strong> are built from the ground up with AI at their core. These companies represent the next evolution of service businesses—more efficient, scalable, and globally accessible.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="padding: 1rem; background: rgba(102, 126, 234, 0.05); border-radius: 8px; border-left: 3px solid #667eea;">
+                            <h3 style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">🌍 Global Perspective</h3>
+                            <p style="color: #718096; font-size: 0.9rem;">Track companies across 9 regions, from Silicon Valley to emerging markets</p>
+                        </div>
+                        <div style="padding: 1rem; background: rgba(102, 126, 234, 0.05); border-radius: 8px; border-left: 3px solid #667eea;">
+                            <h3 style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">🎯 Service-Focused</h3>
+                            <p style="color: #718096; font-size: 0.9rem;">Dedicated to service businesses, not just AI product companies</p>
+                        </div>
+                        <div style="padding: 1rem; background: rgba(102, 126, 234, 0.05); border-radius: 8px; border-left: 3px solid #667eea;">
+                            <h3 style="font-weight: 600; color: #4a5568; margin-bottom: 0.5rem;">📊 Broader Range</h3>
+                            <p style="color: #718096; font-size: 0.9rem;">From $250K startups to $100M established companies</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Company Button -->
+            <section class="add-company-section">
+                <button class="btn-primary" onclick="openSubmissionModal()">
+                    <i class="fas fa-plus"></i> Submit an AI Agent, AI Pod, or AI Worker
+                </button>
+            </section>
+
+            <!-- Type Toggle Section -->
+            <section class="filters-section">
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="typeFilter">
+                            <i class="fas fa-user-tag"></i> Type
+                        </label>
+                        <select id="typeFilter" onchange="filterCompanies()">
+                            <option value="">All Types</option>
+                            <option value="Individual">Individuals</option>
+                            <option value="Company">Companies</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="timeFilter">
+                            <i class="fas fa-clock"></i> Time Period
+                        </label>
+                        <select id="timeFilter" onchange="filterCompanies()">
+                            <option value="">All Time</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="featuredFilter">
+                            <i class="fas fa-star"></i> Featured
+                        </label>
+                        <select id="featuredFilter" onchange="filterCompanies()">
+                            <option value="">All</option>
+                            <option value="weekly">Featured Weekly</option>
+                            <option value="monthly">Featured Monthly</option>
+                            <option value="quarterly">Featured Quarterly</option>
+                            <option value="yearly">Featured Yearly</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filters Section -->
+            <section class="filters-section">
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="regionFilter">
+                            <i class="fas fa-globe"></i> Region
+                        </label>
+                        <select id="regionFilter" onchange="filterCompanies()">
+                            <option value="">All Regions</option>
+                            <option value="North America">North America</option>
+                            <option value="China">China</option>
+                            <option value="India">India</option>
+                            <option value="EU">Europe</option>
+                            <option value="GCC">GCC</option>
+                            <option value="South Asia">South Asia</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Africa">Africa</option>
+                            <option value="South America">South America</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="verticalFilter">
+                            <i class="fas fa-industry"></i> Vertical
+                        </label>
+                        <select id="verticalFilter" onchange="filterCompanies()">
+                            <option value="">All Verticals</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Education">Education</option>
+                            <option value="Retail">Retail</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Legal">Legal</option>
+                            <option value="HR">Human Resources</option>
+                            <option value="Customer Service">Customer Service</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="sortFilter">
+                            <i class="fas fa-sort"></i> Sort By
+                        </label>
+                        <select id="sortFilter" onchange="sortCompanies()">
+                            <option value="arr-desc">ARR (High to Low)</option>
+                            <option value="arr-asc">ARR (Low to High)</option>
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="growth-desc">Growth Rate</option>
+                            <option value="date-desc">Recently Added</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leaderboard Section -->
+            <section class="leaderboard-section">
+                <h2><i class="fas fa-trophy"></i> AI First Services: Individuals & Companies</h2>
+                <div class="leaderboard-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalCompanies">0</span>
+                        <span class="stat-label">Total Listed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalIndividuals">0</span>
+                        <span class="stat-label">Individuals</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalCorporations">0</span>
+                        <span class="stat-label">Companies</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="newThisWeek">0</span>
+                        <span class="stat-label">New This Week</span>
+                    </div>
+                </div>
+                
+                <div class="leaderboard-container">
+                    <div class="leaderboard-header">
+                        <div class="header-rank">Rank</div>
+                        <div class="header-company">Name/Company</div>
+                        <div class="header-type">Type</div>
+                        <div class="header-arr">ARR</div>
+                        <div class="header-region">Region</div>
+                        <div class="header-vertical">Vertical</div>
+                        <div class="header-growth">Growth</div>
+                        <div class="header-status">Status</div>
+                    </div>
+                    <div class="leaderboard-body" id="leaderboardBody">
+                        <!-- Companies will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Market Insights Section -->
+            <section class="criteria-section">
+                <div class="criteria-card">
+                    <h2><i class="fas fa-chart-bar"></i> Market Insights</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div class="insight-card">
+                            <h3><i class="fas fa-globe-americas"></i> Regional Trends</h3>
+                            <p>North America leads with 40% of AI-first services, followed by Europe (25%) and Asia (35%). Emerging markets show 300%+ growth rates.</p>
+                        </div>
+                        <div class="insight-card">
+                            <h3><i class="fas fa-heartbeat"></i> Vertical Leaders</h3>
+                            <p>Healthcare and Finance dominate early adoption, while emerging verticals like Legal and HR show highest growth potential.</p>
+                        </div>
+                        <div class="insight-card">
+                            <h3><i class="fas fa-rocket"></i> Growth Patterns</h3>
+                            <p>Companies in the $1M-$10M ARR range show average 200%+ YoY growth, indicating strong product-market fit.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Submission Modal -->
+    <div id="submissionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-robot"></i> Submit AI Agent, AI Pod, or AI Worker</h3>
+                <span class="close" onclick="closeSubmissionModal()">&times;</span>
+            </div>
+            <form id="submissionForm" class="submission-form">
+                <div class="form-group">
+                    <label for="entryType">Type *</label>
+                    <select id="entryType" name="entryType" required onchange="toggleFormFields()">
+                        <option value="">Select Type</option>
+                        <option value="Individual">Individual (AI Agent/Pod/Worker)</option>
+                        <option value="Company">Company</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="entityName">Name *</label>
+                    <input type="text" id="entityName" name="entityName" required placeholder="Individual name or Company name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="entityWebsite">Website/Portfolio *</label>
+                    <input type="url" id="entityWebsite" name="entityWebsite" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="entityDescription">AI Service Description *</label>
+                    <textarea id="entityDescription" name="entityDescription" rows="3" required placeholder="Describe how AI is used as an agent, pod, or worker in your services"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="entityARR">Annual Recurring Revenue (USD) *</label>
+                        <select id="entityARR" name="entityARR" required>
+                            <option value="">Select ARR Range</option>
+                            <option value="250000-500000">$250K - $500K</option>
+                            <option value="500000-1000000">$500K - $1M</option>
+                            <option value="1000000-5000000">$1M - $5M</option>
+                            <option value="5000000-10000000">$5M - $10M</option>
+                            <option value="10000000-25000000">$10M - $25M</option>
+                            <option value="25000000-50000000">$25M - $50M</option>
+                            <option value="50000000-100000000">$50M - $100M</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="entityGrowth">YoY Growth Rate (%)</label>
+                        <input type="number" id="entityGrowth" name="entityGrowth" min="0" max="1000" placeholder="e.g., 150">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="entityRegion">Region *</label>
+                        <select id="entityRegion" name="entityRegion" required>
+                            <option value="">Select Region</option>
+                            <option value="North America">North America</option>
+                            <option value="China">China</option>
+                            <option value="India">India</option>
+                            <option value="EU">Europe</option>
+                            <option value="GCC">GCC</option>
+                            <option value="South Asia">South Asia</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Africa">Africa</option>
+                            <option value="South America">South America</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="entityVertical">Vertical *</label>
+                        <select id="entityVertical" name="entityVertical" required>
+                            <option value="">Select Vertical</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Education">Education</option>
+                            <option value="Retail">Retail</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Legal">Legal</option>
+                            <option value="HR">Human Resources</option>
+                            <option value="Customer Service">Customer Service</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="submitterName">Your Name *</label>
+                    <input type="text" id="submitterName" name="submitterName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="submitterEmail">Your Email *</label>
+                    <input type="email" id="submitterEmail" name="submitterEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="submitterRelation">Relationship to Company</label>
+                    <select id="submitterRelation" name="submitterRelation">
+                        <option value="">Select Relationship</option>
+                        <option value="Founder/CEO">Founder/CEO</option>
+                        <option value="Employee">Employee</option>
+                        <option value="Investor">Investor</option>
+                        <option value="Customer">Customer</option>
+                        <option value="Industry Observer">Industry Observer</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeSubmissionModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Submit AI Agent/Pod/Worker</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 AI First Services Leaderboard. Built to track the next generation of AI-native companies.</p>
+            <p class="disclaimer">All data is community-submitted and may not be independently verified. Criteria subject to refinement.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
