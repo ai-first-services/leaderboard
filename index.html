@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI First Services Leaderboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <i class="fas fa-robot"></i>
+                    AI First Services Leaderboard
+                </h1>
+                <p class="tagline">Tracking the fastest-growing AI-native service companies</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Criteria Section -->
+            <section class="criteria-section">
+                <div class="criteria-card">
+                    <h2><i class="fas fa-chart-line"></i> Eligibility Criteria</h2>
+                    <div class="criteria-grid">
+                        <div class="criteria-item">
+                            <span class="criteria-label">Minimum ARR:</span>
+                            <span class="criteria-value">$250K USD</span>
+                        </div>
+                        <div class="criteria-item">
+                            <span class="criteria-label">Maximum ARR:</span>
+                            <span class="criteria-value">$100M USD</span>
+                        </div>
+                        <div class="criteria-item">
+                            <span class="criteria-label">Focus:</span>
+                            <span class="criteria-value">AI-First Services</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Company Button -->
+            <section class="add-company-section">
+                <button class="btn-primary" onclick="openSubmissionModal()">
+                    <i class="fas fa-plus"></i> Submit a Company
+                </button>
+            </section>
+
+            <!-- Filters Section -->
+            <section class="filters-section">
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="regionFilter">
+                            <i class="fas fa-globe"></i> Region
+                        </label>
+                        <select id="regionFilter" onchange="filterCompanies()">
+                            <option value="">All Regions</option>
+                            <option value="North America">North America</option>
+                            <option value="China">China</option>
+                            <option value="India">India</option>
+                            <option value="EU">Europe</option>
+                            <option value="GCC">GCC</option>
+                            <option value="South Asia">South Asia</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Africa">Africa</option>
+                            <option value="South America">South America</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="verticalFilter">
+                            <i class="fas fa-industry"></i> Vertical
+                        </label>
+                        <select id="verticalFilter" onchange="filterCompanies()">
+                            <option value="">All Verticals</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Education">Education</option>
+                            <option value="Retail">Retail</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Legal">Legal</option>
+                            <option value="HR">Human Resources</option>
+                            <option value="Customer Service">Customer Service</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="sortFilter">
+                            <i class="fas fa-sort"></i> Sort By
+                        </label>
+                        <select id="sortFilter" onchange="sortCompanies()">
+                            <option value="arr-desc">ARR (High to Low)</option>
+                            <option value="arr-asc">ARR (Low to High)</option>
+                            <option value="name-asc">Company Name (A-Z)</option>
+                            <option value="growth-desc">Growth Rate</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leaderboard Section -->
+            <section class="leaderboard-section">
+                <h2><i class="fas fa-trophy"></i> AI First Services Companies</h2>
+                <div class="leaderboard-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalCompanies">0</span>
+                        <span class="stat-label">Companies Listed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalRegions">0</span>
+                        <span class="stat-label">Regions</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalVerticals">0</span>
+                        <span class="stat-label">Verticals</span>
+                    </div>
+                </div>
+                
+                <div class="leaderboard-container">
+                    <div class="leaderboard-header">
+                        <div class="header-rank">Rank</div>
+                        <div class="header-company">Company</div>
+                        <div class="header-arr">ARR</div>
+                        <div class="header-region">Region</div>
+                        <div class="header-vertical">Vertical</div>
+                        <div class="header-growth">Growth</div>
+                    </div>
+                    <div class="leaderboard-body" id="leaderboardBody">
+                        <!-- Companies will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Submission Modal -->
+    <div id="submissionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-building"></i> Submit a Company</h3>
+                <span class="close" onclick="closeSubmissionModal()">&times;</span>
+            </div>
+            <form id="submissionForm" class="submission-form">
+                <div class="form-group">
+                    <label for="companyName">Company Name *</label>
+                    <input type="text" id="companyName" name="companyName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="companyWebsite">Website *</label>
+                    <input type="url" id="companyWebsite" name="companyWebsite" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="companyDescription">Description *</label>
+                    <textarea id="companyDescription" name="companyDescription" rows="3" required placeholder="Brief description of the company's AI-first services"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="companyARR">Annual Recurring Revenue (USD) *</label>
+                        <select id="companyARR" name="companyARR" required>
+                            <option value="">Select ARR Range</option>
+                            <option value="250000-500000">$250K - $500K</option>
+                            <option value="500000-1000000">$500K - $1M</option>
+                            <option value="1000000-5000000">$1M - $5M</option>
+                            <option value="5000000-10000000">$5M - $10M</option>
+                            <option value="10000000-25000000">$10M - $25M</option>
+                            <option value="25000000-50000000">$25M - $50M</option>
+                            <option value="50000000-100000000">$50M - $100M</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="companyGrowth">YoY Growth Rate (%)</label>
+                        <input type="number" id="companyGrowth" name="companyGrowth" min="0" max="1000" placeholder="e.g., 150">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="companyRegion">Region *</label>
+                        <select id="companyRegion" name="companyRegion" required>
+                            <option value="">Select Region</option>
+                            <option value="North America">North America</option>
+                            <option value="China">China</option>
+                            <option value="India">India</option>
+                            <option value="EU">Europe</option>
+                            <option value="GCC">GCC</option>
+                            <option value="South Asia">South Asia</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Africa">Africa</option>
+                            <option value="South America">South America</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="companyVertical">Vertical *</label>
+                        <select id="companyVertical" name="companyVertical" required>
+                            <option value="">Select Vertical</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Education">Education</option>
+                            <option value="Retail">Retail</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Legal">Legal</option>
+                            <option value="HR">Human Resources</option>
+                            <option value="Customer Service">Customer Service</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="submitterName">Your Name *</label>
+                    <input type="text" id="submitterName" name="submitterName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="submitterEmail">Your Email *</label>
+                    <input type="email" id="submitterEmail" name="submitterEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="submitterRelation">Relationship to Company</label>
+                    <select id="submitterRelation" name="submitterRelation">
+                        <option value="">Select Relationship</option>
+                        <option value="Founder/CEO">Founder/CEO</option>
+                        <option value="Employee">Employee</option>
+                        <option value="Investor">Investor</option>
+                        <option value="Customer">Customer</option>
+                        <option value="Industry Observer">Industry Observer</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeSubmissionModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Submit Company</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 AI First Services Leaderboard. Built to track the next generation of AI-native companies.</p>
+            <p class="disclaimer">All data is community-submitted and may not be independently verified. Criteria subject to refinement.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
